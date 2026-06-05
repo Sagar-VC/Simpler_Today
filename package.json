@@ -1,0 +1,29 @@
+{
+  "name": "login",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "playwright test && node send-report.js",
+    "test:staging": "cross-env BASE_URL=https://staging.pracsys.simplertoday.ai/login playwright test && node send-report.js",
+    "test:prod": "cross-env BASE_URL=https://prod.pracsys.simplertoday.ai/login playwright test && node send-report.js",
+    "test:dev": "cross-env BASE_URL=https://demo.pracsys.simplertoday.ai/login playwright test && node send-report.js",
+    "test:all": "npm run test:dev && npm run test:staging && npm run test:prod",
+    "test:no-email": "playwright test",
+    "send-report": "node send-report.js",
+    "show-report": "playwright show-report"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "@playwright/test": "^1.59.1",
+    "@types/node": "^25.6.0",
+    "cross-env": "^7.0.3"
+  },
+  "dependencies": {
+    "dotenv": "^17.4.2",
+    "nodemailer": "^8.0.7"
+  }
+}
