@@ -46,15 +46,14 @@ export class DashboardPage {
   /** Open the 3-dot context menu on a workspace card.
    *  Uses a JS click to bypass the "still preparing" AI overlay that intercepts pointer events. */
   async openCardMenu(index: number = 0) {
-    await this.page.locator(`#case-card-${index}`).hover();
-    await this.page.evaluate((idx) => {
-      const card = document.querySelector(`#case-card-${idx}`);
-      if (!card) throw new Error(`#case-card-${idx} not found`);
-      const btn = Array.from(card.querySelectorAll<HTMLElement>('button'))
-        .find(b => !b.textContent?.trim() && !(b.getAttribute('aria-label') ?? '').includes('preparing'));
+    const cardLocator = this.page.locator(`#case-card-${index}`);
+    await cardLocator.hover();
+    await cardLocator.evaluate((card) => {
+      const btn = Array.from(card.querySelectorAll('button'))
+        .find(b => !b.textContent?.trim() && !(b.getAttribute('aria-label') ?? '').includes('preparing')) as any;
       if (!btn) throw new Error('Menu button not found');
       btn.click();
-    }, index);
+    });
   }
 
   /** Assert a workspace name is visible in the search results */

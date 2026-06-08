@@ -11,7 +11,7 @@ test.describe('Workspace - Positive Scenarios', () => {
     test.setTimeout(1_500_000); // 25 minutes — file processing can take ~15 min
   });
 
-  test('Create Workspace with File Upload', async ({ page }) => {
+  test('reate Workspace with File Upload and Supporting Material', async ({ page }) => {
     const loginPage     = new LoginPage(page);
     const dashboardPage = new DashboardPage(page);
     const workspacePage = new WorkspacePage(page);
@@ -99,7 +99,23 @@ test.describe('Workspace - Positive Scenarios', () => {
     await page.waitForTimeout(500);
     await expect(page.getByText('Analysis-Report-v1 (1).pdf').first()).toBeVisible({ timeout: 30_000 });
     console.log('File search is working correctly');
-    // await page.locator('button[class*="hover:text-red-600"]').click({ timeout: 30_000 });
-    // console.log('Clicked on delete option');
+    
+    // --- Step 12: Hover over file and click delete button ---
+    await page.getByText('Analysis-Report-v1 (1).pdf').first().hover({ timeout: 30_000 });
+    await page.locator('button[class*="hover:text-red-600"]').click({ timeout: 30_000 });
+    console.log('Clicked on delete button');
+
+    // --- Step 13: Verify "Delete Document?" popup is visible ---
+    await expect(page.getByText('Delete Document?')).toBeVisible({ timeout: 10_000 });
+    console.log('Delete Document popup is visible');
+
+    // --- Step 14: Click "Confirm Delete" button ---
+    await page.getByRole('button', { name: 'Confirm Delete' }).click({ timeout: 10_000 });
+    console.log('Clicked Confirm Delete button');
+
+    // --- Step 15: Verify deleted file no longer appears in search results ---
+    await page.waitForTimeout(2_000);
+    await expect(page.getByText('Analysis-Report-v1 (1).pdf').first()).not.toBeVisible({ timeout: 15_000 });
+    console.log('Verified: deleted file "Analysis-Report-v1 (1).pdf" no longer appears in search results');
   });
 }); 
