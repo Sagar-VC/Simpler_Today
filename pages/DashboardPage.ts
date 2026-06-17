@@ -75,6 +75,5 @@ export class DashboardPage {
   /** Click the workspace heading on a card to open the workspace */
   async openWorkspace(index: number = 0, name: string) {
     await this.page.locator(`#case-card-${index}`).getByRole('heading', { name }).click();
-    
   }
 }
