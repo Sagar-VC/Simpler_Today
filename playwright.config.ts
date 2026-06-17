@@ -36,7 +36,7 @@ const activeEnvironments = getEnvironments();
 // See https://playwright.dev/docs/test-configuration.
 export default defineConfig({
   testDir: './SimplerToday',
-  testMatch: ['**/suite.spec.ts'],
+  testMatch: ['**/*.spec.ts'],
 
   /* Run tests sequentially (one after another) */
   fullyParallel: false,

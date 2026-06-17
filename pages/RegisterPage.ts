@@ -27,8 +27,14 @@ export class RegisterPage {
     await this.page.getByRole('button', { name: 'Create Professional Account' }).click();
   }
 
-  /** Dismiss the onboarding tour after account creation */
+  /** Dismiss the onboarding tour after account creation (no-op if tour doesn't appear) */
   async skipTour() {
-    await this.page.getByRole('button', { name: 'Skip Tour' }).click();
+    try {
+      const btn = this.page.getByRole('button', { name: 'Skip Tour' });
+      await btn.waitFor({ state: 'visible', timeout: 5000 });
+      await btn.click();
+    } catch {
+      // tour not shown for this session — continue
+    }
   }
 }

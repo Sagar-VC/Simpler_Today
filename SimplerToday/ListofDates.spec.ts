@@ -53,7 +53,7 @@ test.describe('Workspace - List of Dates - Positive Scenarios', () => {
     await dashboardPage.openWorkspace(0, workspaceName);
 
     // --- Step 8: Skip the workspace welcome tour ---
-    await page.getByText('Skip Tour').click();
+    await workspacePage.skipTourInWorkspace();
 
     // --- Step 9: Navigate to Supporting Material and wait for file ---
     await supportingMaterialPage.navigateToSection();

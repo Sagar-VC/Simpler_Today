@@ -11,7 +11,7 @@ test.describe('Workspace - Positive Scenarios', () => {
     test.setTimeout(1_500_000); // 25 minutes — file processing can take ~15 min
   });
 
-  test('reate Workspace with File Upload and Supporting Material', async ({ page }) => {
+  test('Create Workspace with File Upload and Supporting Material', async ({ page }) => {
     const loginPage     = new LoginPage(page);
     const dashboardPage = new DashboardPage(page);
     const workspacePage = new WorkspacePage(page);
@@ -49,7 +49,7 @@ test.describe('Workspace - Positive Scenarios', () => {
     await dashboardPage.openWorkspace(0, workspaceName);
 
     // --- Step 8: Skip the workspace welcome tour ---
-    await page.getByText('Skip Tour').click();
+    await workspacePage.skipTourInWorkspace();
 
     // --- Step 9: Navigate to Supporting Material section in sidebar ---
     await page.getByText('Supporting Material').click();

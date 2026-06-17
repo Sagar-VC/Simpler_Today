@@ -50,8 +50,13 @@ export class LoginPage {
     await this.clickLogin();
   }
 
-  /** Dismiss the onboarding tour prompt after login */
+  /** Dismiss the onboarding tour prompt after login (no-op if tour doesn't appear) */
   async skipTour() {
-    await this.skipTourButton.click();
+    try {
+      await this.skipTourButton.waitFor({ state: 'visible', timeout: 5000 });
+      await this.skipTourButton.click();
+    } catch {
+      // tour not shown for this session — continue
+    }
   }
 }

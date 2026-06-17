@@ -60,9 +60,15 @@ export class WorkspacePage {
     await this.page.getByRole('button', { name: 'Back to Dashboard' }).click();
   }
 
-  /** Dismiss the in-workspace tour overlay after creation */
+  /** Dismiss the in-workspace tour overlay after creation (no-op if tour doesn't appear) */
   async skipTourInWorkspace() {
-    await this.page.getByRole('button', { name: 'Skip Tour' }).click();
+    try {
+      const btn = this.page.getByRole('button', { name: 'Skip Tour' });
+      await btn.waitFor({ state: 'visible', timeout: 5000 });
+      await btn.click();
+    } catch {
+      // tour not shown for this session — continue
+    }
   }
 
   /** Navigate back to the dashboard from inside a workspace */
