@@ -597,7 +597,9 @@ async function sendReport() {
       const summaryUrl = `http://localhost:${REPORT_PORT}/summary-report.html`;
 
       // Full interactive report (with filterable test table) → saved as the attachment.
-      const fullHtml  = buildEmailHTML(resultsData, env, summaryUrl, false);
+      // Pass empty summaryUrl so all filter links are self-contained hash anchors (#all,
+      // #passed, etc.) and the file works offline without the local report server.
+      const fullHtml  = buildEmailHTML(resultsData, env, '', false);
       fs.writeFileSync(summaryPath, fullHtml, 'utf-8');
 
       // Compact version for the email body — no test table, just summary + CTA buttons.

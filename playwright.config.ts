@@ -44,8 +44,8 @@ export default defineConfig({
   /* Fail the build on CI if test.only is accidentally committed */
   forbidOnly: !!process.env.CI,
 
-  /* Retry on CI only */
-  retries: process.env.CI ? 2 : 0,
+  /* Retry on CI; also retry once locally to recover from transient browser crashes */
+  retries: process.env.CI ? 2 : 1,
 
   /* Single worker so tests run one at a time */
   workers: 1,
@@ -64,7 +64,7 @@ export default defineConfig({
     video:      'on',
     launchOptions: {
       slowMo: 500,
-      args: ['--disable-gpu', '--no-sandbox'],
+      args: ['--no-sandbox'],
     },
   },
 

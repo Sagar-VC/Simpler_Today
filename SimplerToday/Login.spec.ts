@@ -22,8 +22,11 @@ test.describe('Login - Positive Scenarios', () => {
   test('Valid Credentials', async () => {
     await loginPage.login(VALID_EMAIL, VALID_PASSWORD);
 
-    // Confirm successful login — Skip Tour button appears only after login
-    await expect(loginPage.skipTourButton).toBeVisible();
+    // Confirm successful login — dashboard loads with the "New Workspace" button.
+    // Skip Tour is a one-time onboarding overlay; it is not shown on every login
+    // and is therefore not a reliable post-login indicator.
+    await expect(loginPage.page.getByRole('button', { name: 'New Workspace' }))
+      .toBeVisible({ timeout: 15_000 });
   });
 });
 

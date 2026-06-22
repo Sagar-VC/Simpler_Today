@@ -38,7 +38,6 @@ const server = http.createServer((req, res) => {
     res.end(data);
   });
 });
-
 server.on('error', (err) => {
   if (err.code === 'EADDRINUSE') {
     // A server from a previous run is still running — that's fine, it serves fresh files.
