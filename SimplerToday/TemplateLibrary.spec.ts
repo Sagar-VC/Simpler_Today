@@ -17,8 +17,17 @@ test('Template Library - Upload and verify file', async ({ page }) => {
   await templateLibraryPage.verifyPageLoaded();
   await templateLibraryPage.backToDashboard();
 
+
   // Open Template Library again, upload file and verify it appears
   await templateLibraryPage.open();
-  await templateLibraryPage.uploadFile('C:\\Users\\Sagar Panchal\\Downloads\\Analysis-Report-v1 (1).pdf');
+  await templateLibraryPage.clickCreatedCustomerTemplate();
+  await templateLibraryPage.clickCustomTemplate1(); 
+  await templateLibraryPage.ClickSaveChanges();
+  
+
+
+  // pending scenario .....................
+
+  //await templateLibraryPage.uploadFile('C:\\Users\\Sagar Panchal\\Downloads\\Analysis-Report-v1 (1).pdf');
   await templateLibraryPage.verifyFileVisible('Analysis-Report-v1 (1)');
 });

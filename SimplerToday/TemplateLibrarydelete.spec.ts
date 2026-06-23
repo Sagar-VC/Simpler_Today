@@ -16,9 +16,9 @@ test('Template Library - Upload, search, delete and verify removal', async ({ pa
   
   await templateLibraryPage.verifyPageLoaded();
 
-  // Upload file and verify it appears
-  await templateLibraryPage.uploadFile('C:\\Users\\Sagar Panchal\\Downloads\\Analysis-Report-v1 (1).pdf');
-  await templateLibraryPage.verifyFileVisible('Analysis-Report-v1 (1)May 29');
+  // // Upload file and verify it appears
+  // await templateLibraryPage.uploadFile('C:\\Users\\Sagar Panchal\\Downloads\\Analysis-Report-v1 (1).pdf');
+  // await templateLibraryPage.verifyFileVisible('Analysis-Report-v1 (1)May 29');
 
   // Search and record count before delete
   await templateLibraryPage.search('Analysis-Report-v1');

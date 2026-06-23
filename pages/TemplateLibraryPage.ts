@@ -8,6 +8,9 @@ export class TemplateLibraryPage {
   readonly backToDashboardBtn: Locator;
   readonly fileCards:          Locator;
   readonly inlineEditInput:    Locator;
+  readonly createdCustomerTemplate: Locator;
+  readonly customertemp1: Locator;
+  readonly savechangebt: Locator;
 
   constructor(page: Page) {
     this.page               = page;
@@ -17,6 +20,10 @@ export class TemplateLibraryPage {
     this.backToDashboardBtn = page.getByRole('button', { name: 'Back to Dashboard' });
     this.fileCards          = page.locator('section').filter({ hasText: 'Letterheads' }).locator('[class*="aspect"]');
     this.inlineEditInput    = page.locator('input[maxlength="120"]');
+    this.createdCustomerTemplate = page.getByRole('button', { name: 'Create Custom' });
+    this.customertemp1 = page.getByRole('button', { name: 'Create Custom Template' });
+    this.savechangebt = page.getByRole('button', { name: 'Save Preset Design' });
+
   }
 
   /** Open Template Library from dashboard via the user-avatar menu */
@@ -37,14 +44,26 @@ export class TemplateLibraryPage {
   }
 
   /** Upload a file via the file-chooser dialog */
-  async uploadFile(filePath: string) {
-    const [fileChooser] = await Promise.all([
-      this.page.waitForEvent('filechooser'),
-      this.uploadButton.click(),
-    ]);
-    await fileChooser.setFiles(filePath);
-  }
+  // async uploadFile(filePath: string) {
+    // const [fileChooser] = await Promise.all([
+    //   this.page.waitForEvent('filechooser'),
+    //   this.uploadButton.click(),
+    // ]);
+    // await fileChooser.setFiles(filePath);
+  // }
 
+  /** Click the created customer template button */
+  async clickCreatedCustomerTemplate() {
+    await this.createdCustomerTemplate.click();
+  }
+// custome button click
+  async clickCustomTemplate1() {
+    await this.customertemp1.click();
+  }
+  // customer template save button click
+async ClickSaveChanges() {
+  await this.savechangebt.click();
+}
   /** Fill the search box */
   async search(term: string) {
     await this.searchInput.fill(term);
