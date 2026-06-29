@@ -29,3 +29,6 @@ import './TemplateLibrary.spec';
 // import './TemplateLibrarydelete.spec';
 // import './Supporting Material.spec';
 // import './ListofDates.spec';
+import './CustomeTemplate_Edit.spec';
+import './CustomerTemplateDelete.spec';
+import './CustomerTemolate_Add.spec';

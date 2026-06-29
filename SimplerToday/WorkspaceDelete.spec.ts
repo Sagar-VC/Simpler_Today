@@ -3,6 +3,10 @@ import { LoginPage } from '../pages/LoginPage';
 import { DashboardPage } from '../pages/DashboardPage';
 import { WorkspacePage } from '../pages/WorkspacePage';
 
+declare const process: { env: { TEST_EMAIL?: string; TEST_PASSWORD?: string } };
+const EMAIL    = process.env.TEST_EMAIL    ?? '';
+const PASSWORD = process.env.TEST_PASSWORD ?? '';
+
 test.describe('Workspace - Delete Scenarios', () => {
 
   test('Delete Workspace', async ({ page }) => {
@@ -17,7 +21,7 @@ test.describe('Workspace - Delete Scenarios', () => {
 
     // Step 1: Login
     await loginPage.goto();
-    await loginPage.login('xetey48662@fixscal.com', 'Test@123');
+    await loginPage.login(EMAIL, PASSWORD);
     await loginPage.skipTour();
 
     // Step 2: Create a new workspace

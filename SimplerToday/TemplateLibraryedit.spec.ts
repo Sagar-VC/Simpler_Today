@@ -2,6 +2,10 @@ import { test, expect } from '@playwright/test';
 import { LoginPage } from '../pages/LoginPage';
 import { TemplateLibraryPage } from '../pages/TemplateLibraryPage';
 
+declare const process: { env: { TEST_EMAIL?: string; TEST_PASSWORD?: string } };
+const EMAIL    = process.env.TEST_EMAIL    ?? '';
+const PASSWORD = process.env.TEST_PASSWORD ?? '';
+
 const FILE_PATH = 'C:\\Users\\Sagar Panchal\\Downloads\\Analysis-Report-v1 (1).pdf';
 
 test.describe('Template Library - Edit', () => {
@@ -9,13 +13,13 @@ test.describe('Template Library - Edit', () => {
   test.beforeEach(async ({ page }) => {
     const loginPage = new LoginPage(page);
     await loginPage.goto();
-    await loginPage.login('picayox936@okcpress.com', 'Test@123');
+    await loginPage.login(EMAIL, PASSWORD);
     await loginPage.skipTour();
   });
 
   // ── Positive ────────────────────────────────────────────────────────────────
 
-  test('Positive - Upload, search, rename and verify new name appears', async ({ page }) => {
+  test('Positive - , supdatyearch, rename and verify new name appears', async ({ page }) => {
     const tlp = new TemplateLibraryPage(page);
 
     await tlp.open();

@@ -1,29 +1,61 @@
-import { Page, expect } from '@playwright/test';
+import { Page, Locator, expect } from '@playwright/test';
 
 export class DashboardPage {
   private readonly page: Page;
   private readonly dashboardURL = 'https://demo.pracsys.simplertoday.ai/dashboard';
 
+  // ── Locators ──────────────────────────────────────────────────────────────
+  private readonly newWorkspaceBtn: Locator;
+  private readonly searchBar:       Locator;
+
   constructor(page: Page) {
-    this.page = page;
+    this.page            = page;
+    this.newWorkspaceBtn = page.getByRole('button', { name: 'New Workspace' });
+    this.searchBar       = page.getByRole('textbox', { name: 'Search workspaces, case numbers, or clients' });
   }
+
+  // ── Actions ───────────────────────────────────────────────────────────────
 
   /** Click the "New Workspace" button to open the creation dialog */
   async clickNewWorkspace() {
-    await this.page.getByRole('button', { name: 'New Workspace' }).click();
+    await this.newWorkspaceBtn.click();
   }
 
-  /** Wait for a workspace card to appear by its index (default: first card) */
+  /** Type into the search bar on the dashboard */
+  async searchWorkspaces(text: string) {
+    await this.page.locator('xpath=//*[@id="search-bar"]').click();
+    await this.searchBar.fill(text);
+  }
+
+  /**
+   * Open the 3-dot context menu on a workspace card.
+   * Uses a JS click to bypass the "still preparing" AI overlay.
+   */
+  async openCardMenu(index: number = 0) {
+    const cardLocator = this.page.locator(`#case-card-${index}`);
+    await cardLocator.hover();
+    await cardLocator.evaluate((card: any) => {
+      const btn = Array.from(card.querySelectorAll('button')).find(
+        (b: any) => !b.textContent?.trim() && !(b.getAttribute('aria-label') ?? '').includes('preparing')
+      ) as any;
+      if (!btn) throw new Error('Menu button not found');
+      btn.click();
+    });
+  }
+
+  /** Click the workspace heading on a card to open the workspace */
+  async openWorkspace(index: number = 0, name: string) {
+    await this.page.locator(`#case-card-${index}`).getByRole('heading', { name }).click();
+  }
+
+  // ── Assertions ────────────────────────────────────────────────────────────
+
+  /** Wait for a workspace card to appear by its index */
   async waitForWorkspaceCard(index: number = 0) {
     await this.page.locator(`#case-card-${index}`).waitFor({ timeout: 15000 });
   }
 
-  /**
-   * Wait for the AI background job on a workspace card to finish.
-   * The "Preparing workspace overview" spinner is driven by a server-side AI
-   * process that can take well over 60 s on the demo environment, so we allow
-   * up to 2 minutes before failing.
-   */
+  /** Wait for the AI background job on a workspace card to finish */
   async waitForWorkspaceReady(index: number = 0) {
     await expect(
       this.page.locator(`#case-card-${index}`).locator('button[aria-label*="still preparing"]')
@@ -37,28 +69,9 @@ export class DashboardPage {
     ).toBeVisible({ timeout: 10000 });
   }
 
-  /** Type into the search bar on the dashboard */
-  async searchWorkspaces(text: string) {
-    await this.page.locator('xpath=//*[@id="search-bar"]').click();
-    await this.page.getByRole('textbox', { name: 'Search workspaces, case numbers, or clients' }).fill(text);
-  }
-
-  /** Open the 3-dot context menu on a workspace card.
-   *  Uses a JS click to bypass the "still preparing" AI overlay that intercepts pointer events. */
-  async openCardMenu(index: number = 0) {
-    const cardLocator = this.page.locator(`#case-card-${index}`);
-    await cardLocator.hover();
-    await cardLocator.evaluate((card) => {
-      const btn = Array.from(card.querySelectorAll('button'))
-        .find(b => !b.textContent?.trim() && !(b.getAttribute('aria-label') ?? '').includes('preparing')) as any;
-      if (!btn) throw new Error('Menu button not found');
-      btn.click();
-    });
-  }
-
   /** Assert a workspace name is visible in the search results */
   async verifyWorkspaceVisible(name: string) {
-    await expect(this.page.getByText(name).first()).toBeVisible();
+    await expect(this.page.getByText(name).first()).toBeVisible({ timeout: 10000 });
   }
 
   /** Assert no workspace cards exist and the empty-state message is shown */
@@ -70,10 +83,5 @@ export class DashboardPage {
   /** Assert the browser is on the dashboard URL */
   async verifyDashboardURL() {
     await expect(this.page).toHaveURL(this.dashboardURL, { timeout: 10000 });
-  }
-
-  /** Click the workspace heading on a card to open the workspace */
-  async openWorkspace(index: number = 0, name: string) {
-    await this.page.locator(`#case-card-${index}`).getByRole('heading', { name }).click();
   }
 }

@@ -1,23 +1,19 @@
 import { Page, Locator } from '@playwright/test';
 
-/**
- * Page Object Model for the Forgot Password flow.
- * Covers the forgot-password form and navigation back to login.
- */
 export class ForgotPasswordPage {
-  readonly page: Page;
+  private readonly page: Page;
 
-  // ── Locators ──────────────────────────────────────────────
-  readonly forgotPasswordLink: Locator;  // on the login page
-  readonly heading: Locator;             // "Forgot password" heading
-  readonly emailField: Locator;
-  readonly sendResetLinkButton: Locator;
-  readonly successMessage: Locator;      // shown after a valid submission
-  readonly backToSignInLink: Locator;
-  readonly loginButton: Locator;         // login page button, used after navigating back
+  // ── Locators ──────────────────────────────────────────────────────────────
+  private readonly forgotPasswordLink:  Locator;
+  private readonly heading:             Locator;
+  private readonly emailField:          Locator;
+  private readonly sendResetLinkButton: Locator;
+  private readonly successMessage:      Locator;
+  private readonly backToSignInLink:    Locator;
+  private readonly loginButton:         Locator;
 
   constructor(page: Page) {
-    this.page = page;
+    this.page                = page;
     this.forgotPasswordLink  = page.getByRole('link',    { name: 'Forgot password?' });
     this.heading             = page.getByRole('heading', { name: 'Forgot password' });
     this.emailField          = page.getByPlaceholder('you@example.com');
@@ -27,31 +23,25 @@ export class ForgotPasswordPage {
     this.loginButton         = page.getByRole('button',  { name: 'Login to Workspace' });
   }
 
-  // ── Actions ───────────────────────────────────────────────
+  // ── Actions ───────────────────────────────────────────────────────────────
 
-  /**
-   * Navigate to the login page and open the forgot-password form
-   * by clicking the "Forgot password?" link.
-   */
+  /** Navigate to the login page and open the forgot-password form */
   async goto() {
     await this.page.goto('/');
     await this.forgotPasswordLink.click();
   }
 
-  /** Type into the email field only. */
+  /** Type into the email field */
   async fillEmail(email: string) {
     await this.emailField.fill(email);
   }
 
-  /** Click the "Send reset link" submit button. */
+  /** Click the "Send reset link" submit button */
   async submit() {
     await this.sendResetLinkButton.click();
   }
 
-  /**
-   * Fill the email and submit the reset-link form.
-   * Combines fillEmail + submit.
-   */
+  /** Fill the email and submit the reset-link form */
   async requestPasswordReset(email: string) {
     await this.fillEmail(email);
     await this.submit();

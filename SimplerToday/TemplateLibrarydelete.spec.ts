@@ -2,13 +2,17 @@ import { test, expect } from '@playwright/test';
 import { LoginPage } from '../pages/LoginPage';
 import { TemplateLibraryPage } from '../pages/TemplateLibraryPage';
 
+declare const process: { env: { TEST_EMAIL?: string; TEST_PASSWORD?: string } };
+const EMAIL    = process.env.TEST_EMAIL    ?? '';
+const PASSWORD = process.env.TEST_PASSWORD ?? '';
+
 test('Template Library - Upload, search, delete and verify removal', async ({ page }) => {
   const loginPage           = new LoginPage(page);
   const templateLibraryPage = new TemplateLibraryPage(page);
 
   // Login
   await loginPage.goto();
-  await loginPage.login('picayox936@okcpress.com', 'Test@123');
+  await loginPage.login(EMAIL, PASSWORD);
   await loginPage.skipTour();
 
   // Open Template Library and verify page loaded

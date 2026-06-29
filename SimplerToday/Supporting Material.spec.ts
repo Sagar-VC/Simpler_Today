@@ -3,6 +3,10 @@ import { LoginPage } from '../pages/LoginPage';
 import { DashboardPage } from '../pages/DashboardPage';
 import { WorkspacePage } from '../pages/WorkspacePage';
 
+declare const process: { env: { TEST_EMAIL?: string; TEST_PASSWORD?: string } };
+const EMAIL    = process.env.TEST_EMAIL    ?? '';
+const PASSWORD = process.env.TEST_PASSWORD ?? '';
+
 // Trace/video disabled — large recordings cause ENOENT on teardown.
 test.use({ trace: 'off', video: 'off' });
 
@@ -20,7 +24,7 @@ test.describe('Workspace - Positive Scenarios', () => {
 
     // --- Step 1: Login ---
     await loginPage.goto();
-    await loginPage.login('picayox936@okcpress.com', 'Test@123');
+    await loginPage.login(EMAIL, PASSWORD);
     await loginPage.skipTour();
 
     // --- Step 2: Open New Workspace dialog and fill details ---

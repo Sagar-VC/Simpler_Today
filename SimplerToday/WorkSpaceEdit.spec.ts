@@ -3,6 +3,10 @@ import { LoginPage } from '../pages/LoginPage';
 import { DashboardPage } from '../pages/DashboardPage';
 import { WorkspacePage } from '../pages/WorkspacePage';
 
+declare const process: { env: { TEST_EMAIL?: string; TEST_PASSWORD?: string } };
+const EMAIL    = process.env.TEST_EMAIL    ?? '';
+const PASSWORD = process.env.TEST_PASSWORD ?? '';
+
 // ── Shared setup helper ────────────────────────────────────────────────────
 async function loginAndCreateWorkspace(
   page: import('@playwright/test').Page,
@@ -13,7 +17,7 @@ async function loginAndCreateWorkspace(
   const workspacePage = new WorkspacePage(page);
 
   await loginPage.goto();
-  await loginPage.login('picayox936@okcpress.com', 'Test@123');
+  await loginPage.login(EMAIL, PASSWORD);
   await loginPage.skipTour();
 
   await dashboardPage.clickNewWorkspace();

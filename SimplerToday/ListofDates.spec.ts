@@ -5,6 +5,10 @@ import { WorkspacePage } from '../pages/WorkspacePage';
 import { SupportingMaterialPage } from '../pages/SupportingMaterialPage';
 import { ListofDatesPage } from '../pages/ListofDatesPage';
 
+declare const process: { env: { TEST_EMAIL?: string; TEST_PASSWORD?: string } };
+const EMAIL    = process.env.TEST_EMAIL    ?? '';
+const PASSWORD = process.env.TEST_PASSWORD ?? '';
+
 // Trace/video disabled — large recordings cause ENOENT on teardown.
 test.use({ trace: 'off', video: 'off' });
 
@@ -24,7 +28,7 @@ test.describe('Workspace - List of Dates - Positive Scenarios', () => {
 
     // --- Step 1: Login ---
     await loginPage.goto();
-    await loginPage.login('picayox936@okcpress.com', 'Test@123');
+    await loginPage.login(EMAIL, PASSWORD);
     await loginPage.skipTour();
 
     // --- Step 2: Open New Workspace dialog and fill details ---
