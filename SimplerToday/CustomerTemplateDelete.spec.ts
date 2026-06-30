@@ -1,6 +1,6 @@
 import { test } from '@playwright/test';
 import { LoginPage } from '../pages/LoginPage';
-import { TemplateLibraryPage } from '../pages/TemplateLibraryPage';
+import { CustomTemplatePage } from '../pages/CustomTemplatePage';
 
 declare const process: { env: { TEST_EMAIL?: string; TEST_PASSWORD?: string } };
 const EMAIL    = process.env.TEST_EMAIL    ?? '';
@@ -12,7 +12,7 @@ test.describe('Custom Template - Delete Scenario', () => {
     test.setTimeout(120_000);
 
     const loginPage = new LoginPage(page);
-    const tlp       = new TemplateLibraryPage(page);
+    const tlp       = new CustomTemplatePage(page);
 
     // --- Step 1: Login ---
     await loginPage.goto();

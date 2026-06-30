@@ -1,6 +1,6 @@
 import { test } from '@playwright/test';
 import { LoginPage } from '../pages/LoginPage';
-import { TemplateLibraryPage } from '../pages/TemplateLibraryPage';
+import { CustomTemplatePage } from '../pages/CustomTemplatePage';
 
 declare const process: { env: { TEST_EMAIL?: string; TEST_PASSWORD?: string } };
 const EMAIL    = process.env.TEST_EMAIL    ?? '';
@@ -13,7 +13,7 @@ test.describe('Template Creation', () => {
   test('Open Template Library and create custom template', async ({ page }) => {
     test.setTimeout(120_000);
     const loginPage           = new LoginPage(page);
-    const templateLibraryPage = new TemplateLibraryPage(page);
+    const templateLibraryPage = new CustomTemplatePage(page);
 
     // Login
     await loginPage.goto();

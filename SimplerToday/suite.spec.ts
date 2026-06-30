@@ -24,11 +24,10 @@
 // import './WorkspaceAdd.spec';
 // import './WorkSpaceEdit.spec';
 // import './WorkspaceDelete.spec';
-import './TemplateLibrary.spec';
-// import './TemplateLibraryedit.spec';
-// import './TemplateLibrarydelete.spec';
+ import './TemplateLibraryedit.spec'; //Change ip
+// import './TemplateLibrarydelete.spec'; Change ip
 // import './Supporting Material.spec';
 // import './ListofDates.spec';
-import './CustomeTemplate_Edit.spec';
-import './CustomerTemplateDelete.spec';
-import './CustomerTemolate_Add.spec';
+// import './CustomeTemplate_Edit.spec';
+// import './CustomerTemplateDelete.spec';
+// import './CustomerTemolate_Add.spec';

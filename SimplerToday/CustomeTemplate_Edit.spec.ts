@@ -1,13 +1,13 @@
 import { test } from '@playwright/test';
 import { LoginPage } from '../pages/LoginPage';
-import { TemplateLibraryPage } from '../pages/TemplateLibraryPage';
+import { CustomTemplatePage } from '../pages/CustomTemplatePage';
 
 declare const process: { env: { TEST_EMAIL?: string; TEST_PASSWORD?: string } };
 const EMAIL    = process.env.TEST_EMAIL    ?? '';
 const PASSWORD = process.env.TEST_PASSWORD ?? '';
 
 /** Create a blank custom template and return to the library listing. */
-async function createCustomTemplate(tlp: TemplateLibraryPage) {
+async function createCustomTemplate(tlp: CustomTemplatePage) {
   await tlp.open();
   await tlp.verifyPageLoaded();
   await tlp.clickCreateCustom();
@@ -30,7 +30,7 @@ test.describe('Custom Template - Edit Scenarios', () => {
 
   test('Positive - Create custom template, rename and verify new name', async ({ page }) => {
     test.setTimeout(120_000);
-    const tlp = new TemplateLibraryPage(page);
+    const tlp = new CustomTemplatePage(page);
 
     await createCustomTemplate(tlp);
 
@@ -50,7 +50,7 @@ test.describe('Custom Template - Edit Scenarios', () => {
 
   test('Negative - Search for non-existent template shows no results', async ({ page }) => {
     test.setTimeout(60_000);
-    const tlp = new TemplateLibraryPage(page);
+    const tlp = new CustomTemplatePage(page);
 
     await tlp.open();
     await tlp.verifyPageLoaded();
@@ -60,7 +60,7 @@ test.describe('Custom Template - Edit Scenarios', () => {
 
   test('Negative - Old name not found after successful rename', async ({ page }) => {
     test.setTimeout(120_000);
-    const tlp = new TemplateLibraryPage(page);
+    const tlp = new CustomTemplatePage(page);
 
     // Create a template and give it a known original name
     await createCustomTemplate(tlp);
@@ -84,7 +84,7 @@ test.describe('Custom Template - Edit Scenarios', () => {
 
   test('Negative - Saving empty name does not overwrite original name', async ({ page }) => {
     test.setTimeout(120_000);
-    const tlp = new TemplateLibraryPage(page);
+    const tlp = new CustomTemplatePage(page);
 
     // Create a template and give it a known name first
     await createCustomTemplate(tlp);
