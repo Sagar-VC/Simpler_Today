@@ -94,7 +94,8 @@ test.describe('Custom Template - Edit Scenarios', () => {
     // Clear the inline edit input and press Enter (attempt to save blank name)
     await tlp.search(knownName);
     await tlp.startInlineEdit();
-    await tlp.inlineEditInput.clear();
+    // clear the input using fill('') since Locator.clear() is not available
+    await tlp.inlineEditInput.fill('');
     await tlp.inlineEditInput.press('Enter');
 
     // App should reject blank rename — original name must still be visible
