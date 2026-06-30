@@ -24,7 +24,7 @@
 // import './WorkspaceAdd.spec';
 // import './WorkSpaceEdit.spec';
 // import './WorkspaceDelete.spec';
- import './TemplateLibraryedit.spec'; //Change ip
+//  import './TemplateLibraryedit.spec'; //Change ip
 // import './TemplateLibrarydelete.spec'; Change ip
 // import './Supporting Material.spec';
 // import './ListofDates.spec';
