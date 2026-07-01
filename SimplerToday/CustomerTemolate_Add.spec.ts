@@ -48,7 +48,6 @@ async function createAndVerify(
   await templatePage.clearSearch();
   await templatePage.verifyFileVisible(name);
 }
-
 // ──────────────────────────────────────────────────────────────────────────────
 test.describe('Template Creation - All Types', () => {
 
@@ -91,7 +90,7 @@ test.describe('Template Creation - All Types', () => {
     const name = `District Courts Template ${Date.now()}`;
     await createAndVerify(page, t => t.selectDistrictCourtsOfIndia(), name);
   });
-
+  
   test('05 - Create Tribunals & Forums Template', async ({ page }) => {
     test.setTimeout(120_000);
     await setup(page);
@@ -105,5 +104,4 @@ test.describe('Template Creation - All Types', () => {
     const name = `Custom Template ${Date.now()}`;
     await createAndVerify(page, t => t.clickCreateCustomTemplate(), name);
   });
-
 });
