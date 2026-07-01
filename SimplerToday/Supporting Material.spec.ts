@@ -3,7 +3,6 @@ import { LoginPage } from '../pages/LoginPage';
 import { DashboardPage } from '../pages/DashboardPage';
 import { WorkspacePage } from '../pages/WorkspacePage';
 
-declare const process: { env: { TEST_EMAIL?: string; TEST_PASSWORD?: string } };
 const EMAIL    = process.env.TEST_EMAIL    ?? '';
 const PASSWORD = process.env.TEST_PASSWORD ?? '';
 

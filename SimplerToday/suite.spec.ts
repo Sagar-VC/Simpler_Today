@@ -18,18 +18,16 @@
 //  *   11. List of Dates
 //  */
 
-// import './registernewuser.spec';
-// import './Login.spec';
-// import './forgotpassword.spec';
-// import './WorkspaceAdd.spec';
-// import './WorkSpaceEdit.spec';
-// import './WorkspaceDelete.spec';
-//  import './TemplateLibraryedit.spec'; //Change ip
-// import './TemplateLibrarydelete.spec'; Change ip
-// import './Supporting Material.spec';
-// import './ListofDates.spec';
-// import './CustomeTemplate_Edit.spec';
-// import './CustomerTemplateDelete.spec';
-// import './CustomerTemolate_Add.spec';
-// import './DocumentDraftsadd.spec';
+import './registernewuser.spec';
+import './Login.spec';
+import './forgotpassword.spec';
+import './WorkspaceAdd.spec';
+import './WorkSpaceEdit.spec';
+import './WorkspaceDelete.spec';
+ import './Supporting Material.spec';
+import './ListofDates.spec';
+import './CustomeTemplate_Edit.spec';
+import './CustomerTemplateDelete.spec';
+import './CustomerTemolate_Add.spec';
+import './DocumentDraftsadd.spec';
 
