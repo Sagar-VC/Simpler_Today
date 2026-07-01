@@ -8,9 +8,15 @@ export class CustomTemplatePage {
   private readonly backToDashboardBtn:      Locator;
   private readonly fileCards:               Locator;
   readonly inlineEditInput:                 Locator;
-  private readonly createCustomBtn:         Locator;
-  private readonly createCustomTemplateBtn: Locator;
-  private readonly savePresetBtn:           Locator;
+  private readonly createCustomBtn:          Locator;
+  private readonly createCustomTemplateBtn:  Locator;
+  private readonly savePresetBtn:            Locator;
+  private readonly saveLetterheadBtn:        Locator;
+  private readonly letterheadsTypeBtn:       Locator;
+  private readonly supremeCourtTypeBtn:      Locator;
+  private readonly highCourtsTypeBtn:        Locator;
+  private readonly districtCourtsTypeBtn:    Locator;
+  private readonly tribunalsTypeBtn:         Locator;
 
   constructor(page: Page) {
     this.page                    = page;
@@ -22,9 +28,15 @@ export class CustomTemplatePage {
                                        .locator('div')
                                        .filter({ has: page.getByRole('button', { name: 'Adjust Layout' }) });
     this.inlineEditInput         = page.locator('input[maxlength="120"]');
-    this.createCustomBtn         = page.getByRole('button', { name: 'Create Custom' });
-    this.createCustomTemplateBtn = page.getByRole('button', { name: 'Create Custom Template' });
-    this.savePresetBtn           = page.getByRole('button', { name: 'Save Preset Design' });
+    this.createCustomBtn          = page.getByRole('button', { name: 'Create Custom' });
+    this.createCustomTemplateBtn  = page.getByRole('button', { name: 'Create Custom Template' });
+    this.savePresetBtn            = page.getByRole('button', { name: 'Save Preset Design' });
+    this.saveLetterheadBtn        = page.getByRole('button', { name: 'Save Letterhead', exact: true });
+    this.letterheadsTypeBtn       = page.getByRole('button', { name: 'Letterheads', exact: true });
+    this.supremeCourtTypeBtn      = page.getByRole('button', { name: 'Supreme Court of India', exact: true });
+    this.highCourtsTypeBtn        = page.getByRole('button', { name: 'High Courts of India', exact: true });
+    this.districtCourtsTypeBtn    = page.getByRole('button', { name: 'District Courts of India', exact: true });
+    this.tribunalsTypeBtn         = page.getByRole('button', { name: 'Tribunals & Forums', exact: true });
   }
 
   // ── Navigation ──────────────────────────────────────────────────────────────
@@ -48,8 +60,38 @@ export class CustomTemplatePage {
     await this.createCustomTemplateBtn.click();
   }
 
+  async selectLetterheads() {
+    await this.letterheadsTypeBtn.click();
+  }
+
+  async selectSupremeCourtOfIndia() {
+    await this.supremeCourtTypeBtn.click();
+  }
+
+  async selectHighCourtsOfIndia() {
+    await this.highCourtsTypeBtn.click();
+  }
+
+  async selectDistrictCourtsOfIndia() {
+    await this.districtCourtsTypeBtn.click();
+  }
+
+  async selectTribunalsAndForums() {
+    await this.tribunalsTypeBtn.click();
+  }
+
   async clickSaveChanges() {
+    await this.savePresetBtn.waitFor({ state: 'visible', timeout: 60_000 });
     await this.savePresetBtn.click();
+  }
+
+  async saveLetterhead() {
+    await this.saveLetterheadBtn.waitFor({ state: 'visible', timeout: 30_000 });
+    await this.saveLetterheadBtn.click();
+  }
+
+  async selectHighCourtState(state: string = 'Delhi') {
+    await this.page.getByRole('button', { name: state }).first().click();
   }
 
   // ── Search ──────────────────────────────────────────────────────────────────
