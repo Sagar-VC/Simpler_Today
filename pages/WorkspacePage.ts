@@ -44,6 +44,11 @@ export class WorkspacePage {
     await this.page.getByRole('button', { name: 'Create Workspace' }).click();
   }
 
+  /** Locator for the workspace name heading shown at the top of the workspace page */
+  getWorkspaceName() {
+    return this.page.getByRole('heading', { level: 1 });
+  }
+
   /** Wait for the "Preparing your workspace" screen — non-blocking since it may flash briefly */
   async waitForPreparationScreen() {
     try {

@@ -17,7 +17,7 @@ test.describe('Workspace - Positive Scenarios', () => {
     test.setTimeout(180_000);
   });
 
-  test('Create Workspace with File Upload', async ({ page }) => {
+  test('Create Workspace with File Upload with new party', async ({ page }) => {
     // Relevant Parties AI extraction can take a few minutes after workspace creation.
     test.setTimeout(300_000);
 
