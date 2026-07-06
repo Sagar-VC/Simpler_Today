@@ -7,8 +7,22 @@ export class UserProfilePage {
     this.page = page;
   }
 
+  /** Dismiss the onboarding tour if it's still showing, and wait for its backdrop to clear */
+  private async dismissTourIfPresent() {
+    const skipTourBtn = this.page.getByRole('button', { name: 'Skip Tour' });
+    try {
+      await skipTourBtn.waitFor({ state: 'visible', timeout: 3000 });
+      await skipTourBtn.click();
+    } catch {
+      // tour not shown — continue
+    }
+    // The tour backdrop can briefly linger after dismissal and intercept clicks underneath it.
+    await this.page.locator('div.fixed.inset-0').first().waitFor({ state: 'hidden', timeout: 5000 }).catch(() => {});
+  }
+
   /** Click the avatar button (by initial letter) then open User Profile */
   async openProfile(initial: string) {
+    await this.dismissTourIfPresent();
     await this.page.getByRole('button', { name: initial, exact: true }).click();
     await this.page.getByRole('button', { name: 'User Profile' }).click();
   }

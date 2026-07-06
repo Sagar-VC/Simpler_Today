@@ -8,6 +8,8 @@ import { UserProfilePage } from '../pages/UserProfilePage';
 // ──────────────────────────────────────────────────────────────────────────────
 test.describe('User Registration - Positive Scenarios', () => {
   test('Register new user and update profile', async ({ page }) => {
+    test.setTimeout(60_000);
+
     const loginPage       = new LoginPage(page);
     const registerPage    = new RegisterPage(page);
     const userProfilePage = new UserProfilePage(page);

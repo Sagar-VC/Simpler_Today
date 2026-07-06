@@ -53,10 +53,12 @@ export class CustomTemplatePage {
   // ── Create ──────────────────────────────────────────────────────────────────
 
   async clickCreateCustom() {
+    await this.createCustomBtn.waitFor({ state: 'visible', timeout: 30_000 });
     await this.createCustomBtn.click();
   }
 
   async clickCreateCustomTemplate() {
+    await this.createCustomTemplateBtn.waitFor({ state: 'visible', timeout: 30_000 });
     await this.createCustomTemplateBtn.click();
   }
 

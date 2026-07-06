@@ -1,0 +1,23 @@
+* [33m6794360[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m Test case update for the CaseLaws
+* [33m6d15d2e[m new Test case add
+* [33m7a8b76e[m error fix
+* [33mf687887[m Regisetred flow more test case add
+* [33m7d98bbd[m More Test cases update
+* [33m2d82be1[m Bug fix
+* [33m38006f0[m Customer template change
+* [33mb4a51be[m DocumentDraftsadd new test cases add some other file change
+* [33m160e3b8[m custome Template Page mrg
+* [33m907e8d4[m Add .env file
+* [33m51068e6[m evn file change new login id update
+* [33m4441690[m  templetd fill upload
+* [33m1bf004d[m Login script issues fix
+* [33mcc1235b[m  report change
+* [33md621968[m Update Dashboard and ForgotPassword pages
+* [33m8c4f5b7[m  testing data
+*   [33mbf645fa[m Merge branch into main
+[32m|[m[33m\[m  
+[32m|[m * [33m81c3795[m Initial commit
+* [33mffcd13f[m 17 -06 First Commit playwright
+* [33mbf1e443[m[33m ([m[1;32mfeature/simplertodayqa[m[33m)[m 17 -06 First Commit playwright
+* [33mce963a1[m date and time
+* [33mc72e314[m[33m ([m[1;32mfeature/login[m[33m)[m Initial commit - login automation project
