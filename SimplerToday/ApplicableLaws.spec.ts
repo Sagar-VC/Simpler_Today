@@ -90,14 +90,30 @@ test.describe('Workspace - Applicable Laws - Positive Scenarios', () => {
       'Upload and process supporting documents in at least one workspace.'
     );
 
-    // --- Step 3: Add a law manually ---
+    // --- Step 3: Navigate to the Applicable Laws section ---
+    await applicableLawsPage.navigateToSection();
+    await applicableLawsPage.verifyPageLoaded();
+
+    // --- Step 4: Verify "+ Add Law Manually" is displayed ---
     await applicableLawsPage.clickAdd();
+    await applicableLawsPage.verifyAddLawManuallyButtonVisible();
+
+    // --- Step 5: Click "+ Add Law Manually" and verify the "Add Law" pop-up is displayed ---
     await applicableLawsPage.clickAddLawManually();
-    await applicableLawsPage.selectSection('Short title, extent and');
+    await applicableLawsPage.verifyAddLawPopupVisible();
+
+    // --- Step 6: Select the first available law (section list is dynamic per workspace) ---
+    const sectionText = await applicableLawsPage.selectFirstSection();
+
+    // --- Step 7: Enter a valid description ---
+    const description = `Automation test description ${Date.now()}`;
+    await applicableLawsPage.fillDescription(description);
+
+    // --- Step 8: Click "Add Law" ---
     await applicableLawsPage.clickAddLaw();
 
-    // --- Step 4: Verify the law appears in the list ---
-    await applicableLawsPage.verifyLawVisible('Short title, extent and');
+    // --- Step 9: Verify the law appears in the Applicable Laws list ---
+    await applicableLawsPage.verifyLawVisible(sectionText);
     console.log('Applicable law added and verified successfully');
   });
 
@@ -117,19 +133,19 @@ test.describe('Workspace - Applicable Laws - Positive Scenarios', () => {
       'Upload and process supporting documents in at least one workspace.'
     );
 
-    // --- Step 3: Add a law (test setup) ---
+    // --- Step 3: Add a law (test setup) — section list is dynamic, select the first one ---
     await applicableLawsPage.clickAdd();
     await applicableLawsPage.clickAddLawManually();
-    await applicableLawsPage.selectSection('Short title, extent and');
+    const sectionText = await applicableLawsPage.selectFirstSection();
     await applicableLawsPage.clickAddLaw();
-    await applicableLawsPage.verifyLawVisible('Short title, extent and');
+    await applicableLawsPage.verifyLawVisible(sectionText);
 
     // --- Step 4: Remove the law ---
-    await applicableLawsPage.clickRemoveLaw(0);
+    await applicableLawsPage.clickRemoveLaw(sectionText);
     await applicableLawsPage.confirmRemoveLaw();
 
     // --- Step 5: Verify the law is gone ---
-    await applicableLawsPage.verifyLawRemoved('Short title, extent and');
+    await applicableLawsPage.verifyLawRemoved(sectionText);
     console.log('Applicable law removed successfully');
   });
 });
