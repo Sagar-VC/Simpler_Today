@@ -52,7 +52,7 @@ export default defineConfig({
 
   /* Reporters */
   reporter: [
-    ['html', { open: 'never' }],
+    ['html', { open: 'never', outputFolder: 'reports' }],
     ['json', { outputFile: 'test-results/results.json' }],
   ],
 
