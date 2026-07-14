@@ -14,7 +14,13 @@ test.use({ trace: 'off', video: 'off' });
 
 test.describe('Workspace - List of Dates - Positive Scenarios', () => {
   test.beforeEach(() => {
-    test.setTimeout(1_500_000); // 25 minutes — file processing can take ~15 min
+    // 40 minutes — waitForFileReady alone can poll for up to 20 min (40 x 30s),
+    // plus ~3 min of login/workspace-creation overhead before it starts, and
+    // time for the remaining List of Dates steps after the file is ready.
+    // The previous 25-minute budget left almost no margin and was getting hit
+    // mid-test, force-closing the browser (surfacing as "Target page, context
+    // or browser has been closed" on whatever action ran next).
+    test.setTimeout(2_400_000);
   });
 
   test('Create List of Dates', async ({ page }) => {

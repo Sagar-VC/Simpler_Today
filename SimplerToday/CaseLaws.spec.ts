@@ -18,8 +18,13 @@ test.describe('Workspace - Positive Scenarios', () => {
   });
 
   test('Create Workspace with File Upload with new party', async ({ page }) => {
-    // Relevant Parties AI extraction can take a few minutes after workspace creation.
-    test.setTimeout(300_000);
+    // waitForPartiesReady alone can wait up to 240s (4 min) for the AI party-extraction
+    // job to finish. The previous 300s (5 min) budget left only ~1 min for login,
+    // workspace creation with a real file upload, and the whole Add Party flow
+    // (including a second file upload) — nowhere near enough margin, so the test
+    // timeout was firing while "Under Processing" was still visible. 10 minutes
+    // gives comfortable headroom over that 4-minute worst case plus all other steps.
+    test.setTimeout(600_000);
 
     const loginPage       = new LoginPage(page);
     const dashboardPage   = new DashboardPage(page);

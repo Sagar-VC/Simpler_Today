@@ -74,10 +74,10 @@ export class DashboardPage {
     await expect(this.page.getByText(name).first()).toBeVisible({ timeout: 10000 });
   }
 
-  /** Assert no workspace cards exist and the empty-state message is shown */
+  /** Assert no workspace cards exist and the filtered empty-state message is shown */
   async verifyNoWorkspaces() {
     await expect(this.page.locator('#case-card-0')).not.toBeVisible();
-    await expect(this.page.getByText('No workspaces yet')).toBeVisible();
+    await expect(this.page.getByText('No active workspaces found for this filter.')).toBeVisible();
   }
 
   /** Assert the browser is on the dashboard URL */
