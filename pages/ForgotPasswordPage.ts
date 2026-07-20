@@ -5,12 +5,12 @@ export class ForgotPasswordPage {
 
   // ── Locators ──────────────────────────────────────────────────────────────
   private readonly forgotPasswordLink:  Locator;
-  private readonly heading:             Locator;
-  private readonly emailField:          Locator;
-  private readonly sendResetLinkButton: Locator;
-  private readonly successMessage:      Locator;
-  private readonly backToSignInLink:    Locator;
-  private readonly loginButton:         Locator;
+  readonly heading:                     Locator;
+  readonly emailField:                  Locator;
+  readonly sendResetLinkButton:         Locator;
+  readonly successMessage:              Locator;
+  readonly backToSignInLink:            Locator;
+  readonly loginButton:                 Locator;
 
   constructor(page: Page) {
     this.page                = page;
@@ -27,7 +27,11 @@ export class ForgotPasswordPage {
 
   /** Navigate to the login page and open the forgot-password form */
   async goto() {
-    await this.page.goto('/');
+    // Note: baseURL already points at '/login' — a relative '/' resolves to
+    // the domain root instead, landing on the wrong page. Navigate to
+    // '/login' explicitly so this respects baseURL across environments.
+    await this.page.goto('/login');
+    await this.forgotPasswordLink.waitFor({ state: 'visible', timeout: 15_000 });
     await this.forgotPasswordLink.click();
   }
 

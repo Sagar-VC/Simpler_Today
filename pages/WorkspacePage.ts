@@ -39,9 +39,22 @@ export class WorkspacePage {
     await this.page.waitForSelector(`text=${fileName}`, { timeout: 10000 });
   }
 
-  /** Click the "Create Workspace" submit button */
+  /**
+   * Click the "Create Workspace" submit button and confirm the dialog
+   * actually closes. Failing fast here — instead of letting the caller
+   * time out later waiting for "Back to Dashboard" — makes a stuck/rejected
+   * submission (e.g. file still processing server-side) obvious immediately.
+   */
   async clickCreateWorkspace() {
+    const dialog = this.page.getByRole('dialog');
     await this.page.getByRole('button', { name: 'Create Workspace' }).click();
+    try {
+      await dialog.waitFor({ state: 'hidden', timeout: 30_000 });
+    } catch {
+      throw new Error(
+        '"Create Workspace" dialog did not close after submitting — the workspace was likely not created (check for a validation error or slow file processing).'
+      );
+    }
   }
 
   /** Locator for the workspace name heading shown at the top of the workspace page */
@@ -62,9 +75,15 @@ export class WorkspacePage {
 
   /**
    * After workspace creation, navigate back to the dashboard.
-   * Handles two app flows:
-   *   (a) Preparation screen → "Back to Dashboard" button
-   *   (b) App navigates directly into workspace → "Back to workspace" link
+   * Handles two confirmed app flows:
+   *   (a) No file attached — no AI processing, so the app skips the prep
+   *       screen entirely and drops the user straight into the workspace;
+   *       use the sidebar "Back to workspace" link to reach the dashboard.
+   *   (b) File attached — a "Preparing your workspace" screen is shown with
+   *       a "Back to Dashboard" button.
+   * Callers must not assume which branch ran — check the resulting URL
+   * (see ListofDates.spec.ts / Supporting Material.spec.ts) rather than
+   * asserting the dashboard unconditionally.
    */
   async waitAndClickBackToDashboard() {
     const backToDashboardBtn = this.page.getByRole('button', { name: 'Back to Dashboard' });
@@ -74,7 +93,6 @@ export class WorkspacePage {
       await backToDashboardBtn.waitFor({ timeout: 10000 });
       await backToDashboardBtn.click();
     } catch {
-      // App went directly into the workspace — use the sidebar back link
       await backToWorkspaceLink.waitFor({ timeout: 60000 });
       await backToWorkspaceLink.click();
     }

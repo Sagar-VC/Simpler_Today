@@ -62,6 +62,10 @@ export default defineConfig({
     headless:   false,
     screenshot: 'on',
     video:      'on',
+    /* Individual actions/navigations fail with a clear error after this
+       long instead of silently retrying until the whole test times out. */
+    actionTimeout:     30_000,
+    navigationTimeout: 30_000,
     launchOptions: {
       slowMo: 500,
       args: ['--no-sandbox'],

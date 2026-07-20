@@ -12,6 +12,7 @@ test.describe('Forgot Password - Positive Scenarios', () => {
   let forgotPage: ForgotPasswordPage;
 
   test.beforeEach(async ({ page }) => {
+    test.setTimeout(60_000); // headroom for a slow login-page load before navigating further
     forgotPage = new ForgotPasswordPage(page);
     await forgotPage.goto(); // navigates to login → clicks "Forgot password?"
   });
@@ -38,6 +39,7 @@ test.describe('Forgot Password - Negative Scenarios', () => {
   let forgotPage: ForgotPasswordPage;
 
   test.beforeEach(async ({ page }) => {
+    test.setTimeout(60_000); // headroom for a slow login-page load before navigating further
     forgotPage = new ForgotPasswordPage(page);
     await forgotPage.goto(); // navigates to login → clicks "Forgot password?"
   });
