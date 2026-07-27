@@ -5,12 +5,12 @@ import { CustomTemplatePage } from '../pages/CustomTemplatePage';
 const EMAIL    = process.env.TEST_EMAIL    ?? '';
 const PASSWORD = process.env.TEST_PASSWORD ?? '';
 
-// Shared setup: login and open the Template Library
+// Shared setup: login and open the Template Ligit sbrary
 async function setup(page: Page): Promise<CustomTemplatePage> {
   const loginPage = new LoginPage(page);
   const tp        = new CustomTemplatePage(page);
 
-  await loginPage.goto();
+  await loginPage.goto(); 
   await loginPage.login(EMAIL, PASSWORD);
   await loginPage.skipTour();
 

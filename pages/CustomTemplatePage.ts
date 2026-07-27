@@ -1,7 +1,7 @@
 import { Page, Locator, expect } from '@playwright/test';
 
 export class CustomTemplatePage {
-  private readonly page: Page;
+  private readonly page: Page;  
 
   private readonly heading:                 Locator;
   private readonly searchInput:             Locator;
