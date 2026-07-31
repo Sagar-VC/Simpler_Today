@@ -76,7 +76,6 @@ test.describe('Workspace - Positive Scenarios', () => {
         console.log('File is ready, clicking on it now');
     await fileLocator.click();
 
-
     // --- Step 11: Verify the file details page has opened ---
     await expect(page.getByText('Supporting Material').first()).toBeVisible({ timeout: 30_000 });
     console.log('File details page opened successfully');
