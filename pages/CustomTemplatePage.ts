@@ -42,6 +42,12 @@ export class CustomTemplatePage {
   // ── Navigation ──────────────────────────────────────────────────────────────
 
   async open(userInitial: string = 'S') {
+    // Login (or a stale session) can resume inside a workspace instead of the
+    // Dashboard — the avatar isn't a clickable button there, so back out first.
+    const backToWorkspace = this.page.getByText('Back to workspace', { exact: true });
+    if (await backToWorkspace.isVisible()) {
+      await backToWorkspace.click();
+    }
     await this.page.getByRole('button', { name: userInitial, exact: true }).click();
     await this.page.getByRole('button', { name: 'Template Library' }).click();
   }
