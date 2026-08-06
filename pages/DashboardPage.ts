@@ -2,7 +2,6 @@ import { Page, Locator, expect } from '@playwright/test';
 
 export class DashboardPage {
   private readonly page: Page;
-  private readonly dashboardURL = 'https://demo.pracsys.simplertoday.ai/dashboard';
 
   // ── Locators ──────────────────────────────────────────────────────────────
   private readonly newWorkspaceBtn: Locator;
@@ -80,8 +79,8 @@ export class DashboardPage {
     await expect(this.page.getByText('No active workspaces found for this filter.')).toBeVisible();
   }
 
-  /** Assert the browser is on the dashboard URL */
+  /** Assert the browser is on the dashboard URL, regardless of which environment's baseURL is active */
   async verifyDashboardURL() {
-    await expect(this.page).toHaveURL(this.dashboardURL, { timeout: 10000 });
+    await expect(this.page).toHaveURL(/\/dashboard/, { timeout: 10000 });
   }
 }

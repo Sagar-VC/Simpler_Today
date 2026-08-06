@@ -2,7 +2,6 @@ import { Page, Locator } from '@playwright/test';
 
 export class LoginPage {
   private readonly page:          Page;
-  private readonly url =          'https://demo.pracsys.simplertoday.ai/login';
   private readonly emailField:    Locator;
   private readonly passwordField: Locator;
   private readonly loginButton:   Locator;
@@ -18,7 +17,9 @@ export class LoginPage {
 
   /** Navigate to the login page */
   async goto() {
-    await this.page.goto(this.url);
+    // Relative path resolves against the project's baseURL (see playwright.config.ts),
+    // so this respects whatever BASE_URL is set in .env.
+    await this.page.goto('/login');
   }
 
   /** Fill only the email field */

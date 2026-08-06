@@ -585,7 +585,7 @@ async function sendReport() {
       ]);
       console.log('✅ Email connection verified');
 
-      const reportPath  = path.join(__dirname, 'playwright-report', 'index.html');
+      const reportPath  = path.join(__dirname, 'reports', 'index.html');
       const summaryPath = path.join(__dirname, 'test-results', 'summary-report.html');
       const resultsData = JSON.parse(fs.readFileSync(resultsPath, 'utf-8'));
       const env         = process.env.BASE_URL || 'Development (Demo)';
