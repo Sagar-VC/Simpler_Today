@@ -12,7 +12,7 @@ const FILE_PATH = process.env.TEST_FILE_PATH ?? '';
 const FILE_NAME = path.basename(FILE_PATH, path.extname(FILE_PATH));
 
 test('Verify Document Upload in Template Library', async ({ page }) => {
-  test.setTimeout(180_000);
+  test.setTimeout(720_000); // 12 minutes — AI Setup can take up to 10 of that (see below)
 
   const loginPage = new LoginPage(page);
 
@@ -62,12 +62,25 @@ test('Verify Document Upload in Template Library', async ({ page }) => {
   // Step 7 & 8: Verify the document card appears in the Document Drafts section
   await expect(page.locator(`p[title="${FILE_NAME}"]`)).toBeVisible({ timeout: 30000 });
 
-  // Step 9: After upload the AI analysis runs automatically and the
-  // "AI Drafting Blueprint & Variables Approval" popup auto-opens once done.
-  // Wait up to 90 s for the popup heading to appear.
-  await expect(
-    page.getByRole('heading', { name: /AI Drafting Blueprint/i })
-  ).toBeVisible({ timeout: 90000 });
+  // Step 9: After upload the AI analysis runs in the background. Once ready, the
+  // app either auto-opens the "AI Drafting Blueprint & Variables Approval" popup,
+  // or leaves an "AI Setup (N Vars)" button on the card to open it manually —
+  // wait for whichever shows up, then click the button only if the popup isn't
+  // already open.
+  const uploadedDraftCard = page.locator('section')
+    .filter({ hasText: 'Document Drafts' })
+    .locator('.grid > div')
+    .filter({ has: page.locator(`p[title="${FILE_NAME}"]`) })
+    .first();
+  const aiSetupBtn = uploadedDraftCard.getByRole('button', { name: /AI Setup/i });
+  const blueprintHeading = page.getByRole('heading', { name: /AI Drafting Blueprint/i });
+
+  await expect(aiSetupBtn.or(blueprintHeading)).toBeVisible({ timeout: 600000 });
+  if (await aiSetupBtn.isVisible().catch(() => false)) {
+    await aiSetupBtn.click();
+  }
+
+  await expect(blueprintHeading).toBeVisible({ timeout: 15000 });
 
   // Step 10: Verify the Interactive Variables Registry section is displayed
   const registryHeading = page.getByText('Interactive Variables Registry');

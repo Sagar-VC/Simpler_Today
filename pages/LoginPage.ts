@@ -19,7 +19,22 @@ export class LoginPage {
   async goto() {
     // Relative path resolves against the project's baseURL (see playwright.config.ts),
     // so this respects whatever BASE_URL is set in .env.
-    await this.page.goto('/login');
+    //
+    // Retries on net::ERR_ABORTED — this navigation occasionally gets aborted
+    // immediately when it starts right as the previous test's browser context
+    // is still finishing teardown (trace/video flush) in the shared, single-worker
+    // browser process. Any other error is rethrown immediately.
+    const maxAttempts = 3;
+    for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+      try {
+        await this.page.goto('/login');
+        return;
+      } catch (error) {
+        const isAborted = error instanceof Error && error.message.includes('net::ERR_ABORTED');
+        if (!isAborted || attempt === maxAttempts) throw error;
+        await this.page.waitForTimeout(1000);
+      }
+    }
   }
 
   /** Fill only the email field */

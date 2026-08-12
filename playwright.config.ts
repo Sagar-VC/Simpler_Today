@@ -38,6 +38,29 @@ export default defineConfig({
   testDir: './SimplerToday',
   testMatch: ['**/*.spec.ts'],
 
+  /* These files are imported directly by suite.spec.ts to control execution
+     order (see its docblock). Since they also match testMatch above, Playwright's
+     collector treats that as an invalid "test file should not import test file"
+     configuration and refuses to run — excluding them here means they're only
+     ever loaded via suite.spec.ts's import chain, not as separate top-level files. */
+  // testIgnore matches against the absolute file path, so each pattern needs
+  // a leading '**/' to match regardless of directory depth.
+  testIgnore: [
+    '**/registernewuser.spec.ts',
+    '**/Login.spec.ts',
+    '**/forgotpassword.spec.ts',
+    '**/WorkspaceAdd.spec.ts',
+    '**/WorkSpaceEdit.spec.ts',
+    '**/WorkspaceDelete.spec.ts',
+    '**/Supporting Material.spec.ts',
+    '**/ListofDates.spec.ts',
+    '**/CustomeTemplate_Edit.spec.ts',
+    '**/CustomerTemplateDelete.spec.ts',
+    '**/CustomerTemolate_Add.spec.ts',
+    '**/DocumentDraftsadd.spec.ts',
+    '**/CaseLaws.spec.ts',
+  ],
+
   /* Run tests sequentially (one after another) */
   fullyParallel: false,
 

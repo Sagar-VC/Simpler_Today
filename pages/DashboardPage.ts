@@ -73,10 +73,16 @@ export class DashboardPage {
     await expect(this.page.getByText(name).first()).toBeVisible({ timeout: 10000 });
   }
 
-  /** Assert no workspace cards exist and the filtered empty-state message is shown */
+  /**
+   * Assert no workspace cards exist and the empty-state message is shown.
+   * "No workspaces yet." is the app's empty state when the account has zero
+   * workspaces total (e.g. after deleting the only one) — distinct from a
+   * "no results for this search" message, which only appears when other
+   * workspaces exist but none match the current filter.
+   */
   async verifyNoWorkspaces() {
-    await expect(this.page.locator('#case-card-0')).not.toBeVisible();
-    await expect(this.page.getByText('No active workspaces found for this filter.')).toBeVisible();
+    await expect(this.page.locator('#case-card-0')).not.toBeVisible({ timeout: 15000 });
+    await expect(this.page.getByText('No workspaces yet.')).toBeVisible({ timeout: 15000 });
   }
 
   /** Assert the browser is on the dashboard URL, regardless of which environment's baseURL is active */

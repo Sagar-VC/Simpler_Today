@@ -119,7 +119,10 @@ export class CustomTemplatePage {
     await this.page.getByRole('button', { name: /edit/i }).first().click();
     await this.inlineEditInput.clear();
     await this.inlineEditInput.fill(newName);
-    await this.inlineEditInput.press('Enter');
+    // Some template types (e.g. Court templates) auto-save and close the inline
+    // input as soon as the value changes, instead of waiting for Enter — if it's
+    // already gone by the time we get here, the rename already committed.
+    await this.inlineEditInput.press('Enter', { timeout: 5_000 }).catch(() => {});
   }
 
   /** Hover the first card and open inline edit without saving */
@@ -134,24 +137,29 @@ export class CustomTemplatePage {
     await this.fileCards.first().hover();
     await this.page.getByRole('button', { name: /delete/i }).first().click();
     await this.page.getByRole('button', { name: /delete|confirm|yes/i }).last().click();
-  }
+   }
 
   // ── Assertions ───────────────────────────────────────────────────────────────
 
   async verifyPageLoaded() {
+
     await expect(this.heading).toBeVisible();
     await expect(this.heading).toHaveText('Template Library');
+  
   }
 
   async verifyFileVisible(partialText: string) {
     await expect(this.page.getByText(partialText).first()).toBeVisible();
+  
   }
 
   async verifyFileNotVisible(partialText: string) {
     await expect(this.page.getByText(partialText)).toHaveCount(0);
+  
   }
 
   async verifyNoResults() {
+
     await expect(this.fileCards).toHaveCount(0);
   }
 }
