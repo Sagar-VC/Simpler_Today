@@ -79,7 +79,7 @@ test('Verify Document Upload in Template Library', async ({ page }) => {
   if (await aiSetupBtn.isVisible().catch(() => false)) {
     await aiSetupBtn.click();
   }
-
+  
   await expect(blueprintHeading).toBeVisible({ timeout: 15000 });
 
   // Step 10: Verify the Interactive Variables Registry section is displayed

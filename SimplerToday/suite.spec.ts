@@ -22,7 +22,7 @@ import './registernewuser.spec';
 import './Login.spec';
 import './forgotpassword.spec';
 import './WorkspaceAdd.spec';
-import './WorkSpaceEdit.spec';
+import './WorkSpaceEdit.spec'; 
 import './WorkspaceDelete.spec';
 import './Supporting Material.spec';
 import './ListofDates.spec';
