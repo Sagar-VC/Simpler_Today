@@ -46,23 +46,44 @@ test.describe('Workspace - Positive Scenarios', () => {
     await workspacePage.uploadFile('C:/Users/Sagar Panchal/Downloads/Analysis-Report-v1 (1).pdf');
     await workspacePage.waitForFileUploaded('Analysis-Report-v1 (1).pdf');
 
-    // --- Step 4: Create workspace ---
+    // --- Step 4: Create workspace and wait out the AI file-processing overlay ---
+    // (the "Preparing your workspace" overlay covers the whole page, including
+    // the sidebar tabs, until AI processing finishes — clicking the Parties tab
+    // before it clears causes the click to be intercepted and time out)
     await workspacePage.clickCreateWorkspace();
+    await workspacePage.waitForPreparationScreen();
+    await workspacePage.waitAndClickBackToDashboard();
 
-    // --- Step 5: Verify workspace creation ---
+    // --- Step 5: Depending on app flow, this either lands on the dashboard
+    // (needing to reopen the workspace) or directly inside the new workspace
+    // (see WorkspacePage.waitAndClickBackToDashboard) ---
+    if (!page.url().includes('/workspace/')) {
+      await dashboardPage.verifyDashboardURL();
+      await dashboardPage.waitForWorkspaceCard(0);
+      // Unlike WorkspaceAdd.spec.ts (which only asserts the card, never clicks
+      // it), this test needs to actually reopen the workspace — so it must wait
+      // out the "still preparing" AI overlay on the card first, or the click
+      // below gets intercepted by that overlay button the same way the Parties
+      // tab click was.
+      await dashboardPage.waitForWorkspaceReady(0);
+      await dashboardPage.openWorkspace(0, 'New Client 101');
+    }
+    await workspacePage.skipTourInWorkspace();
+
+    // --- Step 6: Verify workspace creation ---
     await expect(workspacePage.getWorkspaceName()).toHaveText('New Client 101');
 
-    // --- Step 6: Navigate to Relevant Parties tab ---
+    // --- Step 7: Navigate to Relevant Parties tab ---
     await relevantParties.navigateToSection();
     await relevantParties.waitForPartiesReady();
     await relevantParties.verifyAddPartyButtonVisible();
 
-    // --- Step 7: Open Add Party form ---
+    // --- Step 8: Open Add Party form ---
     await relevantParties.clickAddParty();
     await relevantParties.verifyAddPartyFormVisible();
     await relevantParties.verifyRequiredFieldsPresent();
 
-    // --- Step 8: Fill required fields plus contact, email, and Official ID upload ---
+    // --- Step 9: Fill required fields plus contact, email, and Official ID upload ---
     const partyName     = `Test Witness ${Date.now()}`;
     const contactNumber = `98${Math.floor(10_000_000 + Math.random() * 89_999_999)}`; // random 10-digit number
     const email          = `test.${Date.now()}@example.com`;
@@ -78,7 +99,7 @@ test.describe('Workspace - Positive Scenarios', () => {
     await relevantParties.verifyOfficialIdUploaded();
     await relevantParties.clickSaveParty();
 
-    // --- Step 9: Verify the new party appears in the Relevant Parties list with the entered details ---
+    // --- Step 10: Verify the new party appears in the Relevant Parties list with the entered details ---
     await relevantParties.verifyPartyDetails(partyName, { contact: contactNumber, email });
   });
 });
