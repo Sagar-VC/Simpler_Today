@@ -55,8 +55,13 @@ test.describe('Login - Negative Scenarios', () => {
 
     // User remains on the login page
     await expect(page.getByRole('button', { name: /login to workspace/i })).toBeVisible();
-    // TODO: replace with the app's actual error element, e.g.:
-    // await expect(page.getByRole('alert')).toContainText('Invalid credentials');
+    // The app surfaces the failure in a role="alert" banner. A second,
+    // always-present empty aria-live region also carries role="alert", so
+    // filter by text: a bare getByRole('alert') matches 2 nodes and would
+    // trip strict mode.
+    await expect(
+      page.getByRole('alert').filter({ hasText: /couldn.t sign you in/i })
+    ).toBeVisible();
   });
   test('Empty Email', async ({ page }) => {
     // Submit with only the password filled — email left blank
@@ -87,7 +92,12 @@ test.describe('Login - Negative Scenarios', () => {
 
     // User remains on the login page
     await expect(page.getByRole('button', { name: /login to workspace/i })).toBeVisible();
-    // TODO: replace with the app's actual error element, e.g.:
-    // await expect(page.getByRole('alert')).toContainText('Invalid credentials');
+    // The app surfaces the failure in a role="alert" banner. A second,
+    // always-present empty aria-live region also carries role="alert", so
+    // filter by text: a bare getByRole('alert') matches 2 nodes and would
+    // trip strict mode.
+    await expect(
+      page.getByRole('alert').filter({ hasText: /couldn.t sign you in/i })
+    ).toBeVisible();
   });
 });

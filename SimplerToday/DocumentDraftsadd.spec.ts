@@ -22,7 +22,11 @@ test('Verify Document Upload in Template Library', async ({ page }) => {
   await loginPage.skipTour();
 
   // Step 2 & 3: Click the Profile icon → navigate to Template Library
-  await page.getByRole('button', { name: 'S', exact: true }).click();
+  // Matched by any single-letter name rather than a fixed initial — the suite
+  // renames the shared account's display name elsewhere (see
+  // UserProfilePage.updateFullName), which changes the avatar's initial, so a
+  // hardcoded letter breaks on repeat runs against the same account.
+  await page.getByRole('button', { name: /^[A-Za-z]{1,2}$/ }).click();
   await page.getByRole('button', { name: 'Template Library' }).click();
 
   // Verify the Template Library page loaded
@@ -30,7 +34,8 @@ test('Verify Document Upload in Template Library', async ({ page }) => {
 
   // Step 4: If the document already exists, delete it first so every run does a fresh upload
   const existingCard = page.locator(`p[title="${FILE_NAME}"]`);
-  if (await existingCard.isVisible()) {
+  if (await existingCard.isVisible()) 
+    {
     // Document Drafts section → grid → individual card containing the specific title
     const draftCard = page.locator('section')
       .filter({ hasText: 'Document Drafts' })
@@ -57,6 +62,7 @@ test('Verify Document Upload in Template Library', async ({ page }) => {
     uploadDraftBtn.click(),
   ]);
   
+  
   await fileChooser.setFiles(FILE_PATH);
 
   // Step 7 & 8: Verify the document card appears in the Document Drafts section
@@ -79,7 +85,6 @@ test('Verify Document Upload in Template Library', async ({ page }) => {
   if (await aiSetupBtn.isVisible().catch(() => false)) {
     await aiSetupBtn.click();
   }
-  
   await expect(blueprintHeading).toBeVisible({ timeout: 15000 });
 
   // Step 10: Verify the Interactive Variables Registry section is displayed

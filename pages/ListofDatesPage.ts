@@ -12,6 +12,22 @@ export class ListofDatesPage {
     await this.page.locator('#actionable-act_2').click();
   }
 
+  /**
+   * Poll every 30s until the "Under Processing" banner clears and the
+   * "Add Event" button is available; throws after maxAttempts. Date
+   * extraction is a separate backend job from Supporting Material's file
+   * readiness, so it needs its own wait even after waitForFileReady resolves.
+   */
+  async waitForDatesReady(maxAttempts = 40) {
+    const addEventBtn = this.page.getByRole('button', { name: 'Add Event' });
+    for (let i = 0; i < maxAttempts; i++) {
+      await this.page.mouse.move(400, 300);
+      if (await addEventBtn.isVisible().catch(() => false)) return;
+      if (i < maxAttempts - 1) await this.page.waitForTimeout(30_000);
+    }
+    throw new Error(`"Add Event" was not available after ${(maxAttempts * 30) / 60} minutes — date extraction may still be processing`);
+  }
+
   /** Click the "Add Event" button to open the Add Event form */
   async clickAddEvent() {
     await this.page.getByRole('button', { name: 'Add Event' }).click();

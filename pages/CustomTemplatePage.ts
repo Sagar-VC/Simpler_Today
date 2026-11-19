@@ -41,14 +41,21 @@ export class CustomTemplatePage {
 
   // ── Navigation ──────────────────────────────────────────────────────────────
 
-  async open(userInitial: string = 'S') {
+  async open(userInitial?: string) {
     // Login (or a stale session) can resume inside a workspace instead of the
     // Dashboard — the avatar isn't a clickable button there, so back out first.
     const backToWorkspace = this.page.getByText('Back to workspace', { exact: true });
     if (await backToWorkspace.isVisible()) {
       await backToWorkspace.click();
     }
-    await this.page.getByRole('button', { name: userInitial, exact: true }).click();
+    // Matched by any single-letter name rather than a fixed initial by default —
+    // the suite renames the shared account's display name elsewhere (see
+    // UserProfilePage.updateFullName), which changes the avatar's initial, so a
+    // hardcoded letter breaks on repeat runs against the same account.
+    const avatarButton = userInitial
+      ? this.page.getByRole('button', { name: userInitial, exact: true })
+      : this.page.getByRole('button', { name: /^[A-Za-z]{1,2}$/ });
+    await avatarButton.click();
     await this.page.getByRole('button', { name: 'Template Library' }).click();
   }
 

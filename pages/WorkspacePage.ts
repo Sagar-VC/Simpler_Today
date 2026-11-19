@@ -62,6 +62,11 @@ export class WorkspacePage {
     return this.page.getByRole('heading', { level: 1 });
   }
 
+  /** Current page URL — used to capture a workspace's URL right after opening it, e.g. for access-control tests. */
+  getCurrentWorkspaceUrl(): string {
+    return this.page.url();
+  }
+
   /** Wait for the "Preparing your workspace" screen — non-blocking since it may flash briefly */
   async waitForPreparationScreen() {
     try {

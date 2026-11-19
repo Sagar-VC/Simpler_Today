@@ -10,3 +10,6 @@ node_modules/
 /playwright/.cache/
 /playwright/.auth/
 /reports/
+
+# Record of single-use MFA recovery codes already used by tests (hashes only)
+/.auth/

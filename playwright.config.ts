@@ -6,7 +6,7 @@ import path from 'path';
  * Load environment variables from .env (credentials, etc.).
  * https://github.com/motdotla/dotenv
  */
-dotenv.config({ path: path.resolve(__dirname, '.env') });
+dotenv.config({ path: path.resolve(__dirname, '.env'), quiet: true });
 
 // ── Environment map ────────────────────────────────────────────────────────
 const environments = {
@@ -46,7 +46,6 @@ export default defineConfig({
   // testIgnore matches against the absolute file path, so each pattern needs
   // a leading '**/' to match regardless of directory depth.
   testIgnore: [
-    '**/registernewuser.spec.ts',
     '**/Login.spec.ts',
     '**/forgotpassword.spec.ts',
     '**/WorkspaceAdd.spec.ts',
@@ -59,6 +58,18 @@ export default defineConfig({
     '**/CustomerTemolate_Add.spec.ts',
     '**/DocumentDraftsadd.spec.ts',
     '**/CaseLaws.spec.ts',
+    '**/ApplicableLaws.spec.ts',
+    '**/TemplatePreview.spec.ts',
+    '**/ChatReconnect.spec.ts',
+    // Master Admin files, loaded by suite.spec.ts
+    '**/Master_Admin/Master_Login_Page.spec.ts',
+    '**/Master_Admin/Users.spec.ts',
+    '**/Master_Admin/User_View_action.spec.ts',
+    '**/Master_Admin/templates_action.spec.ts',
+    '**/Master_Admin/master_customeTemplate_Edit.spec.ts',
+    '**/Master_Admin/master_DocumentDraftsadd.spec.ts',
+    '**/Master_Admin/master_templatepreview.spec.ts',
+    '**/Master_Admin/knowledge_base.spec.ts',
   ],
 
   /* Run tests sequentially (one after another) */

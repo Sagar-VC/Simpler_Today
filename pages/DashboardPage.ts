@@ -42,8 +42,13 @@ export class DashboardPage {
     });
   }
 
-  /** Click the workspace heading on a card to open the workspace */
+  /**
+   * Click the workspace heading on a card to open the workspace.
+   * Waits out the "still preparing" AI overlay first — it sits on top of the
+   * card and intercepts the heading click until the background job finishes.
+   */
   async openWorkspace(index: number = 0, name: string) {
+    await this.waitForWorkspaceReady(index);
     await this.page.locator(`#case-card-${index}`).getByRole('heading', { name }).click();
   }
 

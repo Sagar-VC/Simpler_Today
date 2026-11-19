@@ -74,6 +74,8 @@ test.describe('Workspace - List of Dates - Positive Scenarios', () => {
 
     // --- Step 10: Navigate to List of Dates section ---
     await listofDatesPage.navigateToSection();
+    await listofDatesPage.waitForDatesReady();
+    console.log('Date extraction complete');
 
     // --- Step 11: Add a new event ---
     await listofDatesPage.clickAddEvent();

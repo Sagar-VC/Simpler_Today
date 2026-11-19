@@ -20,10 +20,15 @@ export class UserProfilePage {
     await this.page.locator('div.fixed.inset-0').first().waitFor({ state: 'hidden', timeout: 5000 }).catch(() => {});
   }
 
-  /** Click the avatar button (by initial letter) then open User Profile */
-  async openProfile(initial: string) {
+  /**
+   * Click the avatar button then open User Profile. Matched by a single-letter
+   * name rather than a fixed initial — this test suite renames the account's
+   * display name (see updateFullName), which changes the avatar's initial, so
+   * a hardcoded letter breaks on repeat runs against the same account.
+   */
+  async openProfile() {
     await this.dismissTourIfPresent();
-    await this.page.getByRole('button', { name: initial, exact: true }).click();
+    await this.page.getByRole('button', { name: /^[A-Za-z]{1,2}$/ }).click();
     await this.page.getByRole('button', { name: 'User Profile' }).click();
   }
 

@@ -21,10 +21,13 @@ export class RelevantPartiesPage {
     this.addPartyBtn         = page.getByRole('button', { name: '+ Add Party' });
     this.addPartyDialog      = page.getByRole('dialog').filter({ hasText: 'Add Party' });
     // Dialog field order: Full Name (input), Role (select), Details/Notes (textarea),
-    // Contact Number (input), Email ID (input[type=email]), Official ID (hidden file input).
+    // Contact Number (input), Email ID (input[type=email]), Address (textarea),
+    // Official ID (hidden file input).
     this.fullNameInput       = this.addPartyDialog.locator('input').first();
     this.roleSelect          = this.addPartyDialog.locator('select');
-    this.detailsTextarea     = this.addPartyDialog.locator('textarea');
+    // .first() — the dialog also has a later Address textarea, so a bare
+    // 'textarea' locator matches two elements and trips strict mode.
+    this.detailsTextarea     = this.addPartyDialog.locator('textarea').first();
     this.contactNumberInput  = this.addPartyDialog.locator('input').nth(1);
     this.emailInput          = this.addPartyDialog.locator('input[type="email"]');
     this.officialIdFileInput = this.addPartyDialog.locator('input[type="file"]');

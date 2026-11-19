@@ -11,7 +11,7 @@ test.use({ trace: 'off', video: 'off' });
 
 test.describe('Workspace - Positive Scenarios', () => {
   test.beforeEach(() => {
-    test.setTimeout(1_500_000); // 25 minutes — file processing can take ~15 min
+    test.setTimeout(2_700_000); // 45 minutes — preparation and async file processing can exceed 25 min
   });
 
   test('Create Workspace with File Upload and Supporting Material', async ({ page }) => {
@@ -102,7 +102,7 @@ test.describe('Workspace - Positive Scenarios', () => {
     await page.locator("//input[@placeholder='Search documents...']").fill('Analysis-Report-v1');
     await page.waitForTimeout(500);
     await expect(page.getByText('Analysis-Report-v1 (1).pdf').first()).toBeVisible({ timeout: 30_000 });
-    console.log('File search is working correctly');
+    console.log('File search is working correctly');  
     
     // --- Step 12: Hover over file and click delete button ---
     await page.getByText('Analysis-Report-v1 (1).pdf').first().hover({ timeout: 30_000 });

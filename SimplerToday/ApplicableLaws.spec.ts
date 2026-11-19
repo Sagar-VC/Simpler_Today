@@ -3,8 +3,6 @@ import { LoginPage } from '../pages/LoginPage';
 import { WorkspacePage } from '../pages/WorkspacePage';
 import { ApplicableLawsPage } from '../pages/ApplicableLawsPage';
 
-test.use({ trace: 'off', video: 'off' });
-
 const EMAIL    = process.env.TEST_EMAIL    ?? '';
 const PASSWORD = process.env.TEST_PASSWORD ?? '';
 

@@ -17,7 +17,7 @@ async function setup(page: Page): Promise<CustomTemplatePage> {
   await tp.open();
   await tp.verifyPageLoaded();
   await tp.backToDashboard();
-
+  
   return tp;
 }
 
